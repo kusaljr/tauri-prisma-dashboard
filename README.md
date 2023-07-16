@@ -1,14 +1,8 @@
-# Filer, an open source file manager
+# Tauri Prisma Dashboard
 
-Filer is a file manager writen is TypeScript and Rust using the Tauri frontend toolkit
+Simple dashboard written in Rust Tauri, Prisma database connector and typescript react for frontend
 
 ## Usage
-
-- Clone the repo:
-
-`git clone https://github.com/TheGreatViolet/filer.git`
-
-`cd filer`
 
 - Install dependencies:
 
