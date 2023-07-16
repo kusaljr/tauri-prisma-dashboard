@@ -1,0 +1,64 @@
+name: "Build"
+
+on:
+  push:
+    branches:
+      - "**"
+
+  pull_request:
+    branches:
+      - "**"
+
+env:
+  RUST_BACKTRACE: 1
+  CARGO_INCREMENTAL: 0
+  CARGO_PROFILE_DEV_DEBUG: 0
+
+jobs:
+  typecheck:
+    name: "Typecheck"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v2
+
+      - name: "Setup Node"
+        uses: actions/setup-node@v2
+
+      - name: "Install dependencies"
+        run: |
+          npm install
+
+      - name: "Typecheck"
+        run: |
+          npm run typecheck
+
+  build:
+    name: "Build"
+    runs-on: ${{ matrix.platform }}
+
+    strategy:
+      fail-fast: true
+      matrix:
+        platform: ['ubuntu-latest', 'windows-latest', 'macos-latest']
+
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v2
+
+      - name: "Setup Node"
+        uses: actions/setup-node@v2
+
+      - name: "Setup Rust"
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: "stable"
+
+      - name: "Install dependencies"
+        run: |
+          npm install
+
+      - name: "Build"
+        run: |
+          npm run migrate
+          npm run build
